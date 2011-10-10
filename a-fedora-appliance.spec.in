@@ -1,0 +1,129 @@
+# If you have trouble building locally ('make local') try adding
+#   %libguestfs_buildnet 1
+# to your ~/.rpmmacros file.
+
+# Enable to build using a network repo
+# Default is disabled
+%if %{defined libguestfs_buildnet}
+%global buildnet %{libguestfs_buildnet}
+%else
+%global buildnet 0
+%endif
+
+%global supermindir %{_libdir}/a-fedora-appliance/supermin.d
+%global appliancedir %{_localstatedir}/lib/a-fedora-appliance
+
+
+Name:           a-fedora-appliance
+Version:        @VERSION@
+Release:        @RELEASE@%{?dist}
+Summary:        A package that contains a Fedora appliance
+
+Group:          Applications/Emulators
+License:        GPLv2+
+#URL:            http://people.redhat.com/~rjones/
+Source0:        %{name}-%{version}.tar.gz
+
+BuildRequires:  @PACKAGELIST@
+Requires:       @PACKAGELIST@
+
+BuildRequires:  createrepo
+
+BuildRequires:  febootstrap >= 3.3
+Requires(post): febootstrap-supermin-helper >= 3.3
+
+Requires:       qemu-kvm >= 0.12
+
+# Provide our own custom requires for the supermin appliance.
+Source1:        extra-find-requires.sh
+%global _use_internal_dependency_generator 0
+%global __find_provides %{_rpmconfigdir}/find-provides
+%global __find_requires %{SOURCE1} %{_rpmconfigdir}/find-requires
+
+
+%description
+This is a package that contains a Fedora appliance, otherwise known as
+a small Fedora virtual machine.
+
+You can boot this virtual machine, log into it, and use it as a
+throwaway to test Fedora things.  Or you can use it as a test of your
+hypervisor or virtual machine management tools.
+
+Note: The appliance only contains command line tools (no X11 or office
+suites).  rpm and yum installation of packages is not supported.
+
+%if 0%{?fedora} >= 1
+This package contains an appliance built for Fedora %{fedora}.
+%endif
+
+
+%prep
+%setup -q
+
+
+%build
+%if %{buildnet}
+%define extra %{nil}
+%else
+mkdir repo
+find /var/cache/yum -type f -name '*.rpm' -print0 | xargs -0 cp -t repo
+createrepo repo
+cat > yum.conf <<EOF
+[main]
+cachedir=/var/cache/yum
+debuglevel=1
+logfile=/var/log/yum.log
+retries=20
+obsoletes=1
+gpgcheck=0
+assumeyes=1
+reposdir=/dev/null
+
+[local]
+name=local
+baseurl=file://$(pwd)/repo
+failovermethod=priority
+enabled=1
+gpgcheck=0
+EOF
+%define extra --with-yum-config=$(pwd)/yum.conf
+%endif
+
+%configure %{extra}
+
+make
+
+
+%install
+make DESTDIR=$RPM_BUILD_ROOT install
+
+mkdir -p $RPM_BUILD_ROOT%{appliancedir}
+
+
+%post
+# XXX We should add an RPM trigger so that this gets rebuilt after any
+# dependent package install (recursively).
+
+%{_libexecdir}/build-a-fedora-appliance "%{supermindir}" \
+  "%{appliancedir}/kernel" "%{appliancedir}/initrd" "%{appliancedir}/root" && \
+  echo "Fedora %{fedora} appliance built in %{appliancedir}"
+
+
+%preun
+if [ "$1" -eq 0 ]; then
+   rm -f "%{appliancedir}/kernel" "%{appliancedir}/initrd" "%{appliancedir}/root"
+fi
+
+
+%files
+%defattr(-,root,root,-)
+%doc README COPYING
+%dir %{appliancedir}
+%{_libdir}/a-fedora-appliance/
+%{_libexecdir}/build-a-fedora-appliance
+%{_bindir}/boot-a-fedora-appliance
+
+
+%changelog
+* Mon Oct 10 2011 Richard W.M. Jones <rjones@redhat.com> - 1.0-@RELEASE@
+- Initial release.

@@ -1,0 +1,57 @@
+This is a package that contains a Fedora appliance, otherwise known as
+a small Fedora virtual machine.
+
+----------------------------------------------------------------------
+(1) If you have just installed this package from an RPM
+----------------------------------------------------------------------
+
+The appliance is located in /var/lib/a-fedora-appliance/
+
+There are three files:
+  - kernel: symbolic link to the kernel
+  - initrd: initrd
+  - root: the appliance disk itself
+
+To test boot the appliance, run:
+  sudo /usr/bin/boot-a-fedora-appliance
+
+You probably want to copy /usr/bin/boot-a-fedora-appliance and modify
+it for your own purposes.
+
+
+----------------------------------------------------------------------
+(2) If you are building from the source tarball
+----------------------------------------------------------------------
+
+Do:
+
+  ./configure
+  make
+
+To run locally without installing:
+
+  make local-build
+
+This creates 3 files (kernel, initrd, root) in the local directory.
+
+You can test-boot this appliance by doing:
+
+  make local-boot
+
+
+----------------------------------------------------------------------
+(3) If you want to do a Koji scratch build
+----------------------------------------------------------------------
+
+Do:
+
+  ./configure
+  make
+
+  make koji-f17
+or:
+  make koji-f16
+or:
+  make koji-f15
+
+Currently we require >= f15 because this appliance uses systemd.
