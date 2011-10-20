@@ -47,6 +47,7 @@ Do:
 
   ./configure
   make
+  make dist
 
   make koji-f17
 or:
