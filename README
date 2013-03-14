@@ -23,6 +23,9 @@ it for your own purposes.
 (2) If you are building from the source tarball
 ----------------------------------------------------------------------
 
+'supermin' version 4 or above is required:
+http://people.redhat.com/~rjones/supermin/
+
 Do:
 
   ./configure

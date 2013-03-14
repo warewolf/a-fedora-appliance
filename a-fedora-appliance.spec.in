@@ -29,8 +29,8 @@ Requires:       @PACKAGELIST@
 
 BuildRequires:  createrepo
 
-BuildRequires:  febootstrap >= 3.3
-Requires(post): febootstrap-supermin-helper >= 3.3
+BuildRequires:  supermin >= 4.1.1
+Requires(post): supermin-helper >= 4.1.1
 
 Requires:       qemu-kvm >= 0.12
 

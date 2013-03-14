@@ -20,5 +20,5 @@ if [ "x@YUM_CONFIG@" != "xno" ]; then
     extra="--yum-config @YUM_CONFIG@"
 fi
 
-echo @FEBOOTSTRAP@ -v -o supermin.d --names @PACKAGELIST@ $extra
-@FEBOOTSTRAP@ -v -o supermin.d --names @PACKAGELIST@ $extra
+echo @SUPERMIN@ -v -o supermin.d --names @PACKAGELIST@ $extra
+@SUPERMIN@ -v -o supermin.d --names @PACKAGELIST@ $extra

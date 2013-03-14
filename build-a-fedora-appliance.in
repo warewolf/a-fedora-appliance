@@ -27,4 +27,4 @@ supermindir="$1"
 shift
 
 arch="$(uname -m)"
-exec febootstrap-supermin-helper -f ext2 "$supermindir" "$arch" "$@"
+exec supermin-helper -f ext2 "$supermindir" "$arch" "$@"

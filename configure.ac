@@ -47,20 +47,17 @@ udev \
 "
 AC_SUBST([PACKAGELIST])
 
-dnl Check for febootstrap >= 3.0.
-AC_CHECK_PROG([FEBOOTSTRAP],
-              [febootstrap],[febootstrap],[no])
-test "x$FEBOOTSTRAP" = "xno" &&
-    AC_MSG_ERROR([febootstrap must be installed])
-dnl febootstrap 2.x did not support the --version parameter
-$FEBOOTSTRAP --version >&AS_MESSAGE_LOG_FD 2>&1 ||
-    AC_MSG_ERROR([febootstrap >= 3.0 must be installed, your version is too old])
+dnl Check for supermin >= 4.
+AC_CHECK_PROG([SUPERMIN],
+              [supermin],[supermin],[no])
+test "x$SUPERMIN" = "xno" &&
+    AC_MSG_ERROR([supermin >= 4 must be installed])
 
-dnl Pass a febootstrap --yum-config option.
-AC_MSG_CHECKING([if user requested febootstrap --yum-config option])
+dnl Pass a supermin --yum-config option.
+AC_MSG_CHECKING([if user requested supermin --yum-config option])
 AC_ARG_WITH([yum-config],
     [AS_HELP_STRING([--with-yum-config=FILE],
-      [pass febootstrap --yum-config option @<:@default=no@:>@])],
+      [pass supermin --yum-config option @<:@default=no@:>@])],
     [YUM_CONFIG="$withval"],
     [YUM_CONFIG=no])
 AC_MSG_RESULT([$YUM_CONFIG])
