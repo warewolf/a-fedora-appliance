@@ -49,10 +49,6 @@ Do:
   make
   make dist
 
+  make koji-f18
+or:
   make koji-f17
-or:
-  make koji-f16
-or:
-  make koji-f15
-
-Currently we require >= f15 because this appliance uses systemd.
