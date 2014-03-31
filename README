@@ -13,7 +13,7 @@ There are three files:
   - root: the appliance disk itself
 
 To test boot the appliance, run:
-  sudo /usr/bin/boot-a-fedora-appliance
+  sudo boot-a-fedora-appliance
 
 You probably want to copy /usr/bin/boot-a-fedora-appliance and modify
 it for your own purposes.
