@@ -1,7 +1,7 @@
 #!/bin/bash -
 # @configure_input@
 # boot-a-fedora-appliance
-# Copyright (C) 2011 Red Hat Inc.
+# Copyright (C) 2011-2014 Red Hat Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@ if [ "$1" != "--local" ]; then
     prefix="@prefix@"
     d="@localstatedir@/lib/a-fedora-appliance"
 else
-    d=.
+    d=appliance.d
 fi
 
 exec qemu-kvm \

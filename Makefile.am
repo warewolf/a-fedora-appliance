@@ -1,5 +1,5 @@
 # a-fedora-appliance
-# Copyright (C) 2011 Red Hat Inc.
+# Copyright (C) 2011-2014 Red Hat Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -18,7 +18,6 @@
 EXTRA_DIST = \
 	.gitignore \
 	a-fedora-appliance.spec \
-	extra-find-requires.sh \
 	firstboot \
 	init \
 	make.sh.in \
@@ -27,7 +26,7 @@ EXTRA_DIST = \
 CLEANFILES = *~ make.sh stamp-supermin
 
 clean-local:
-	rm -rf supermin.d
+	rm -rf supermin.d appliance.d
 
 bin_SCRIPTS = boot-a-fedora-appliance
 
@@ -35,22 +34,20 @@ libexec_SCRIPTS = build-a-fedora-appliance
 
 fsdir = $(libdir)/a-fedora-appliance/supermin.d
 fs_DATA = \
-	supermin.d/base.img \
-	supermin.d/init.img \
-	supermin.d/hostfiles
+	supermin.d/base.tar.gz \
+	supermin.d/init.tar.gz \
+	supermin.d/packages
 
-supermin.d/base.img supermin.d/hostfiles: stamp-supermin
+supermin.d/base.tar.gz supermin.d/packages: stamp-supermin
 stamp-supermin: make.sh
 	mkdir -p supermin.d
-	rm -f $@ supermin.d/base.img supermin.d/hostfiles
+	rm -f $@ supermin.d/base.tar.gz supermin.d/packages
 	./make.sh
 	touch $@
 
-supermin.d/init.img: init firstboot
+supermin.d/init.tar.gz: init firstboot
 	mkdir -p supermin.d
-	rm -f $@ $@-t
-	echo -e "init\nfirstboot" | cpio --quiet -o -H newc > $@-t
-	mv $@-t $@
+	tar zcf $@ $^
 
 # This used to be a configure-generated file.  However config.status
 # always touches the destination file, which means the appliance got
@@ -63,7 +60,7 @@ make.sh: make.sh.in
 
 # For local build/testing.
 local-build:
-	./build-a-fedora-appliance supermin.d kernel initrd root
+	./build-a-fedora-appliance supermin.d appliance.d
 
 local-boot:
 	./boot-a-fedora-appliance --local

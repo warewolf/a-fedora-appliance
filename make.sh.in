@@ -1,6 +1,6 @@
 #!/bin/bash -
 # a-fedora-appliance
-# Copyright (C) 2011 Red Hat Inc.
+# Copyright (C) 2011-2014 Red Hat Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -16,9 +16,9 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-if [ "x@YUM_CONFIG@" != "xno" ]; then
-    extra="--yum-config @YUM_CONFIG@"
+if [ "x@PACKAGER_CONFIG@" != "xno" ]; then
+    extra="--packager-config @PACKAGER_CONFIG@"
 fi
 
-echo @SUPERMIN@ -v -o supermin.d --names @PACKAGELIST@ $extra
-@SUPERMIN@ -v -o supermin.d --names @PACKAGELIST@ $extra
+echo @SUPERMIN@ -v --prepare -o supermin.d @PACKAGELIST@ $extra
+@SUPERMIN@ -v --prepare -o supermin.d @PACKAGELIST@ $extra

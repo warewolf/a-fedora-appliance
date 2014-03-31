@@ -23,7 +23,7 @@ it for your own purposes.
 (2) If you are building from the source tarball
 ----------------------------------------------------------------------
 
-'supermin' version 4 or above is required:
+'supermin' version 5 or above is required:
 http://people.redhat.com/~rjones/supermin/
 
 Do:
@@ -35,7 +35,7 @@ To run locally without installing:
 
   make local-build
 
-This creates 3 files (kernel, initrd, root) in the local directory.
+This creates 3 files (kernel, initrd, root) under appliance.d/
 
 You can test-boot this appliance by doing:
 

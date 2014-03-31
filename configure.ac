@@ -1,5 +1,5 @@
 # a-fedora-appliance
-# Copyright (C) 2011 Red Hat Inc.
+# Copyright (C) 2011-2014 Red Hat Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -19,11 +19,14 @@ AC_INIT([a-fedora-appliance],[1.0])
 AM_INIT_AUTOMAKE([foreign])
 
 dnl RPM release.
-RELEASE=6
+RELEASE=7
 AC_SUBST([RELEASE])
 
 dnl The list of packages included in the appliance.
-dnl NOTE: After changing this: touch make.sh.in; make
+dnl NOTES:
+dnl  (1) These packages have to be installed on the host.
+dnl  (2) After changing this do:
+dnl        touch make.sh.in; make
 PACKAGELIST="\
 bash \
 binutils \
@@ -47,21 +50,21 @@ udev \
 "
 AC_SUBST([PACKAGELIST])
 
-dnl Check for supermin >= 4.
+dnl Check for supermin >= 5.
 AC_CHECK_PROG([SUPERMIN],
               [supermin],[supermin],[no])
 test "x$SUPERMIN" = "xno" &&
-    AC_MSG_ERROR([supermin >= 4 must be installed])
+    AC_MSG_ERROR([supermin >= 5 must be installed])
 
-dnl Pass a supermin --yum-config option.
-AC_MSG_CHECKING([if user requested supermin --yum-config option])
-AC_ARG_WITH([yum-config],
-    [AS_HELP_STRING([--with-yum-config=FILE],
-      [pass supermin --yum-config option @<:@default=no@:>@])],
-    [YUM_CONFIG="$withval"],
-    [YUM_CONFIG=no])
-AC_MSG_RESULT([$YUM_CONFIG])
-AC_SUBST([YUM_CONFIG])
+dnl Pass a supermin --packager-config option.
+AC_MSG_CHECKING([if user requested supermin --packager-config option])
+AC_ARG_WITH([packager-config],
+    [AS_HELP_STRING([--with-packager-config=FILE],
+      [pass supermin --packager-config option @<:@default=no@:>@])],
+    [PACKAGER_CONFIG="$withval"],
+    [PACKAGER_CONFIG=no])
+AC_MSG_RESULT([$PACKAGER_CONFIG])
+AC_SUBST([PACKAGER_CONFIG])
 
 dnl Produce output files.
 AC_CONFIG_FILES([Makefile

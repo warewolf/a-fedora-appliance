@@ -5,6 +5,7 @@ Makefile.in
 /a-fedora-appliance-*.src.rpm
 /a-fedora-appliance.spec
 /aclocal.m4
+/appliance.d/
 /autom4te.cache/
 /boot-a-fedora-appliance
 /build-a-fedora-appliance

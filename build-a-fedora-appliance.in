@@ -1,7 +1,7 @@
 #!/bin/bash -
 # @configure_input@
 # build-a-fedora-appliance
-# Copyright (C) 2011 Red Hat Inc.
+# Copyright (C) 2011-2014 Red Hat Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,14 +17,20 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-if [ $# -ne 4 ]; then
-    echo "$0 supermin.d kernel initrd root"
+if [ $# -ne 2 ]; then
+    echo "$0 supermin.d appliance.d"
     echo "Note: you normally should not run this command directly."
     exit 1
 fi
 
 supermindir="$1"
-shift
+appliancedir="$2"
 
-arch="$(uname -m)"
-exec supermin-helper -f ext2 "$supermindir" "$arch" "$@"
+if [ "$(id -u)" -ne 0 ]; then
+    echo
+    echo "Ignore any 'permission denied' errors below, or even better"
+    echo "get Fedora to stop doing security-by-obscurity."
+    echo
+fi
+
+exec @SUPERMIN@ --build -f ext2 "$supermindir" -o "$appliancedir"
