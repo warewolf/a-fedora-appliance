@@ -21,7 +21,7 @@ Summary:        A package that contains a Fedora appliance
 
 Group:          Applications/Emulators
 License:        GPLv2+
-#URL:            http://people.redhat.com/~rjones/
+URL:            http://git.annexia.org/?p=a-fedora-appliance.git
 Source0:        %{name}-%{version}.tar.gz
 
 BuildRequires:  @PACKAGELIST@
