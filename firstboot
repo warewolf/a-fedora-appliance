@@ -92,7 +92,7 @@ EOF
 # systemd-units
 target="/lib/systemd/system/runlevel2.target"
 ln -sf "$target" /etc/systemd/system/default.target
-/bin/systemctl enable getty@.service
+/bin/systemctl enable getty@tty1.service
 
 # openssh-server
 /bin/systemctl enable sshd.service

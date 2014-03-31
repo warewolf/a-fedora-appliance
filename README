@@ -52,6 +52,4 @@ Do:
   make
   make dist
 
-  make koji-f18
-or:
-  make koji-f17
+  make koji-f20

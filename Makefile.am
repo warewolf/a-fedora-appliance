@@ -66,18 +66,10 @@ local-boot:
 	./boot-a-fedora-appliance --local
 
 # To build an RPM in Koji.
-koji-f18:
+koji-f20:
 	rpmbuild -bs \
 	  --define "_srcrpmdir $$(pwd)" \
 	  --define "_sourcedir $$(pwd)" \
-	  --define "dist .fc18" a-fedora-appliance.spec
-	koji build --scratch f18 \
-	  $(PACKAGE_NAME)-$(PACKAGE_VERSION)-$(RELEASE).fc18.src.rpm
-
-koji-f17:
-	rpmbuild -bs \
-	  --define "_srcrpmdir $$(pwd)" \
-	  --define "_sourcedir $$(pwd)" \
-	  --define "dist .fc17" a-fedora-appliance.spec
-	koji build --scratch f17 \
-	  $(PACKAGE_NAME)-$(PACKAGE_VERSION)-$(RELEASE).fc17.src.rpm
+	  --define "dist .fc20" a-fedora-appliance.spec
+	koji build --scratch f20 \
+	  $(PACKAGE_NAME)-$(PACKAGE_VERSION)-$(RELEASE).fc20.src.rpm
