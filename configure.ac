@@ -47,6 +47,7 @@ python \
 rsyslog \
 systemd \
 udev \
+yum \
 "
 AC_SUBST([PACKAGELIST])
 

@@ -43,7 +43,7 @@ throwaway to test Fedora things.  Or you can use it as a test of your
 hypervisor or virtual machine management tools.
 
 Note: The appliance only contains command line tools (no X11 or office
-suites).  rpm and yum installation of packages is not supported.
+suites).  rpm and yum installation of packages is supported.
 
 %if 0%{?fedora} >= 1
 This package contains an appliance built for Fedora %{fedora}.
